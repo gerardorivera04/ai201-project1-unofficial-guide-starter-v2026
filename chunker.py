@@ -23,6 +23,7 @@ your pipeline, not giving up.
 """
 
 from dataclasses import dataclass
+import re
 
 import config
 from ingest import Document
@@ -71,7 +72,8 @@ def fallback_split(
                         text=piece,
                         source=doc.source,
                         index=index,
-                        produced_by="chunker.py::fallback_split",
+                        produced_by="chunker.py::split_documents",
+                        #produced_by="chunker.py::fallback_split",
                     )
                 )
                 index += 1
@@ -97,7 +99,72 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
       - Would splitting on paragraph breaks keep more thoughts intact than
         splitting on a character count?
     """
-    return fallback_split(documents)
+    chunks: list[Chunk] = []
+    minimum_size = 50
+    maximum_size = config.CHUNK_SIZE
+
+    for doc in documents:
+        pieces: list[str] = []
+        for paragraph in re.split(r"\n\s*\n", doc.text):
+            paragraph = paragraph.strip()
+            if not paragraph:
+                continue
+
+            if len(paragraph) <= maximum_size:
+                pieces.append(paragraph)
+                continue
+
+            sentences = re.split(r"(?<=[.!?])\s+", paragraph)
+            current = ""
+            for sentence in sentences:
+                if len(sentence) > maximum_size:
+                    words = sentence.split()
+                    while words:
+                        piece = []
+                        while words and len(" ".join(piece + [words[0]])) <= maximum_size:
+                            piece.append(words.pop(0))
+                        pieces.append(" ".join(piece))
+                    continue
+                candidate = f"{current} {sentence}".strip()
+                if current and len(candidate) > maximum_size:
+                    pieces.append(current)
+                    current = sentence
+                else:
+                    current = candidate
+            if current:
+                pieces.append(current)
+
+        # Keep short headings or fragments with the following thought.
+        pending = ""
+        for piece in pieces:
+            piece = f"{pending}\n\n{piece}".strip() if pending else piece
+            pending = ""
+            if len(piece) < minimum_size:
+                pending = piece
+            else:
+                chunks.append(
+                    Chunk(
+                        text=piece,
+                        source=doc.source,
+                        index=len([chunk for chunk in chunks if chunk.source == doc.source]),
+                        produced_by="chunker.py::split_documents",
+                    )
+                )
+        if pending:
+            same_source = [chunk for chunk in chunks if chunk.source == doc.source]
+            if same_source and len(same_source[-1].text) + len(pending) + 2 <= maximum_size:
+                same_source[-1].text += f"\n\n{pending}"
+            else:
+                chunks.append(
+                    Chunk(
+                        text=pending,
+                        source=doc.source,
+                        index=len(same_source),
+                        produced_by="chunker.py::split_documents",
+                    )
+                )
+
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:
