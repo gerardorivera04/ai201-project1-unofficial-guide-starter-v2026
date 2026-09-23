@@ -21,11 +21,7 @@
 
 ## What This Does
 
-<!-- Three or four sentences. Which corpus you picked, and the kinds of
-     questions your system answers. Write it for someone who has never seen
-     this repo.
-
-     Milestone 5. -->
+I picked the campus_life corpus so that I can build a question-answering system that brings a major focus on a college student's quality of life as the campus_life corpus contains campus information and student advice. The system loads the documents, splits them into meaningful chunks, and creates embeddings so it can retrieve passages related to a question. Before generating an answer, the system uses a relevance gate to refuse questions that are outside the corpus. Additionally, for the cases where the system can answer the questions, it can send the retrieved chunks to the language model, and includes the source document in the response.   
 
 ## Chunking Strategy
 
@@ -162,9 +158,9 @@ whose distance was 0.612.
 
      Milestone 5. -->
 
-**1.**
+**1.** I asked Claude's AI Chat Assistant to suggest a chunking strategy for the documents in the campus_life corpus. First, the chat assistant initially recommended using a generic fixed-size character window with overlap. However, I did take a brief overview of my documents to make the decision of changing the implementation to split primarily at paragraph boundaries because most of the posts were short, and each paragraph contained one complete idea. Additionally, I added sentence-based splitting for paragraphs longer than 500 characters, and kept short headings with the following text. 
 
-**2.**
+**2.** I asked Claude's AI Chat Assistant on how I should choose the best relevance-gate cutoff for retrieved chunks. For instance, the chat assistant suggested to start with the default cutoff of 0.60, and I tested the default cutoff against five in-corpus and five out-of-corpus questions using the retrieval distances. As a result, one in-corpus question had its best distance of 0.612 while the closest out-of-corpus question had a distance of 0.787, so I changed the cutoff to be 0.62. This allowed the in-corpus question to pass while continuing to refuse the out-of-corpus questions. 
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never
