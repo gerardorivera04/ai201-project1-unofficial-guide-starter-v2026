@@ -109,9 +109,12 @@ singles.
 
 **Question:**
 
+What are the walk-in hours at the health centre?
+
 **Answer:**
 
 ```
+Walk-in hours are 8am to 11am. Source: health_center.txt
 ```
 
 **My relevance cutoff:**
@@ -127,7 +130,26 @@ singles.
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| What would students say about safety around their university campus? | Yes | 0.505 |
+| Is there any room for improvement with the university's class registration page? | Yes | 0.612 |
+| What would students say about the food quality in dining halls? | Yes | 0.429 |
+| Are there more food options than just the school's dining halls? | Yes | 0.419 |
+| What kind of transportation is offered by the university to get to their classes faster? | Yes | 0.548 |
+| What is the capital of Mongolia? | No | 0.787 |
+| How do I change the oil in a diesel engine? | No | 0.923 |
+| Who won the 1994 World Cup? | No | 0.847 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.824 |
+| How do I write a for loop in Rust? | No | 0.877 |
+
+I used `TOP_K = 4`. The in-corpus questions had best distances from 0.419 to
+0.612, while the out-of-corpus questions ranged from 0.787 to 0.923. I set
+`THRESHOLD = 0.62`, just above the hardest in-corpus question and below the
+closest out-of-corpus question. At this cutoff, all ten recorded questions
+were classified correctly by the gate. However, the food-quality test returned
+housing chunks despite its low distance, so the retrieval-quality criterion is
+not fully met; the cutoff alone cannot fix a semantically weak match. The
+original 0.60 cutoff also incorrectly refused the second in-corpus question,
+whose distance was 0.612.
 
 ## How I Used AI
 
