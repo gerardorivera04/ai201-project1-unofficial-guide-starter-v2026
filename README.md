@@ -189,11 +189,11 @@ whose distance was 0.612.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 2 of 5 | 2 of 5 | 2 of 5 | MISSED |
+| 2. Every answer names a source | 5 of 5 | 3 of 5 | 3 of 5 | 3 of 5 | MISSED |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 4. No chunk is under 50 characters or over 500 characters | 5 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 5. Every answer came back in under 1 minute | 5 of 5 | 5 of 5 | 4 of 5 | 5 of 5 | MISSED |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
@@ -212,11 +212,11 @@ whose distance was 0.612.
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer | MISSED | The target was at least 4 of 5 questions, but the retrieved chunks contained the answers for only 2 of 5 questions in each run. |
+| 2 | Every answer names a source | MISSED | The targest was 5 of 5 answers, but only 3 of 5 answers included a source document to show that the criterion was not met. |
+| 3 | Gate stops out-of-corpus questions | MET | The target was at least 4 of 5 refusals, and the relevance gate refused all 5 out-of-corpus questions. |
+| 4 | No chunk is under 50 characters or over 500 characters | MET | Every measured chunk was between 50 and 500 characters in all three runs. |
+| 5 | Every answer came back in under 1 minute | MISSED | The target required all answers to be received within one minute, but one answer took more than one minutes in the second run. |
 
 ## Diagnoses
 
