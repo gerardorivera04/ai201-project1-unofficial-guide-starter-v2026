@@ -307,6 +307,18 @@ at 5 of 5.
 
 ## What's Still Broken
 
-
+Criterion 1 is still broken because retrieval continues to return housing
+chunks for the food-quality question. I would address that with hybrid search
+or a retrieval change, but I stopped because the assignment required one
+change and my diagnosis-selected change was prompt tightening. Criterion 2 is
+also still below target because a prompt is a probabilistic instruction as it
+cannot guarantee a source line on every generation. 
 
 ## What I'd Do Differently
+
+I would write Criterion 2 more precisely, such as “Every non-refusal answer names
+an exact source filename from the retrieved excerpts.” The original criterion
+treated every response the same even when the model correctly refused to use
+irrelevant retrieved material. Additionally, I would also separate source presence from
+source correctness because an answer can include a filename without being
+supported by that document.
