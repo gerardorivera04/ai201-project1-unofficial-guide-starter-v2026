@@ -238,6 +238,12 @@ whose distance was 0.612.
 
      Milestone 3. -->
 
+     (i) Diagnosis for missing Criteria #1 (Retrieved chunk contains the answer): Question 3 asks about food quality. There wasn't any chunks that contained the information to provide the right answer for the question. Retrieval found housing chunks instead of chunks with dining passages in them.
+
+     (ii) Diagnosis for missing Criteria #2 (Every answer names a source): Question 4 asks about other food options, such as if there's more variety around campus. Generation saw responses with included source filenames to showcase that source attribution was available, but was not enforced consistently in the generated output. 
+
+     (iii) Diagnosis for missing Criteria #5 (Every answer came back in under 1 minute): All but one question did receive quick responses, but one in particular did go past the fixed time frame. For instance, loading saw many responses take close to one minute from network delays to where the system appeared to become time-consuming rather than be time efficient. 
+
 ## The Improvement
 
 **What I changed:**

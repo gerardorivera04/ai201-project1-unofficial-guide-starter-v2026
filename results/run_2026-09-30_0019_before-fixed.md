@@ -1,0 +1,185 @@
+# Run log — before-fixed
+
+- Produced by: `run_eval.py::main`
+- Retrieval: `store.py::search`, chunks from `chunker.py::split_documents`
+- Corpus: `campus_life` (index variant `default`)
+- top-k: 4 · relevance cutoff: 0.62
+- Runs per question: 3, caching off
+- When: 2026-09-30 00:19
+
+This table is one row per QUESTION. The run log your README asks for is
+one row per CRITERION, so aggregate these into it — criterion 1 is how many
+of your questions had the answer in the retrieved chunks, and so on.
+
+| Question | Run 1 | Run 2 | Run 3 |
+|---|---|---|---|
+| What would students say about safety around their university campus? | fail | fail | fail |
+| Is there any room for improvement with the university’s class registration page? | fail | fail | fail |
+| What would students say about the food quality in dining halls? | fail | fail | fail |
+| Are there more food options than just the school’s dining halls? | pass | pass | fail |
+| What kind of transportation is offered by the university to get to their classes faster? | fail | fail | fail |
+
+---
+
+## The relevance gate on out-of-corpus questions
+
+Produced by `run_eval.py::check_out_of_scope`, cutoff 0.62. Refused 5 of 5.
+
+Retrieval is deterministic and the gate is a comparison against a
+fixed number, so these do not vary between runs — one pass over the
+list is the whole measurement.
+
+| Out-of-scope question | Best distance | Gate |
+|---|---|---|
+| What is the capital of Mongolia? | 0.787 | refused |
+| How do I change the oil in a diesel engine? | 0.923 | refused |
+| Who won the 1994 World Cup? | 0.847 | refused |
+| What is the recommended dosage of ibuprofen for a headache? | 0.824 | refused |
+| How do I write a for loop in Rust? | 0.877 | refused |
+
+---
+
+## Real output
+
+This is what the system actually produced. Paste the relevant parts
+into your README underneath the table — the rubric asks for real
+output as text, not a description of it.
+
+### What would students say about safety around their university campus? — run 1
+
+- Best distance: 0.5047 (passed the gate)
+- Sources retrieved: housing_fenwick_court.txt, housing_innisfree_hall.txt, housing_old_brewhouse.txt, housing_tamsin_court.txt
+
+```
+I don't have enough information to answer your question.
+```
+
+### What would students say about safety around their university campus? — run 2
+
+- Best distance: 0.5047 (passed the gate)
+- Sources retrieved: housing_fenwick_court.txt, housing_innisfree_hall.txt, housing_old_brewhouse.txt, housing_tamsin_court.txt
+
+```
+I don't have enough information to answer your question.
+```
+
+### What would students say about safety around their university campus? — run 3
+
+- Best distance: 0.5047 (passed the gate)
+- Sources retrieved: housing_fenwick_court.txt, housing_innisfree_hall.txt, housing_old_brewhouse.txt, housing_tamsin_court.txt
+
+```
+I don't have enough information to answer your question.
+```
+
+### Is there any room for improvement with the university’s class registration page? — run 1
+
+- Best distance: 0.6118 (passed the gate)
+- Sources retrieved: admin_add_drop_deadline.txt, admin_printing_quota.txt, advising_registration.txt, course_econ_101.txt
+
+```
+I do not have enough information to answer your question.
+```
+
+### Is there any room for improvement with the university’s class registration page? — run 2
+
+- Best distance: 0.6118 (passed the gate)
+- Sources retrieved: admin_add_drop_deadline.txt, admin_printing_quota.txt, advising_registration.txt, course_econ_101.txt
+
+```
+I don't have enough information to answer your question from the provided documents.
+```
+
+### Is there any room for improvement with the university’s class registration page? — run 3
+
+- Best distance: 0.6118 (passed the gate)
+- Sources retrieved: admin_add_drop_deadline.txt, admin_printing_quota.txt, advising_registration.txt, course_econ_101.txt
+
+```
+Based on the provided documents, there is no mention of the university's class registration page. Therefore, I don't have enough information to answer the question.
+```
+
+### What would students say about the food quality in dining halls? — run 1
+
+- Best distance: 0.4286 (passed the gate)
+- Sources retrieved: housing_fenwick_court.txt, housing_innisfree_hall.txt, housing_old_brewhouse.txt, housing_tamsin_court.txt
+
+```
+I don't have enough information to answer your question.
+```
+
+### What would students say about the food quality in dining halls? — run 2
+
+- Best distance: 0.4286 (passed the gate)
+- Sources retrieved: housing_fenwick_court.txt, housing_innisfree_hall.txt, housing_old_brewhouse.txt, housing_tamsin_court.txt
+
+```
+I don't have enough information to answer your question.
+```
+
+### What would students say about the food quality in dining halls? — run 3
+
+- Best distance: 0.4286 (passed the gate)
+- Sources retrieved: housing_fenwick_court.txt, housing_innisfree_hall.txt, housing_old_brewhouse.txt, housing_tamsin_court.txt
+
+```
+I don't have enough information to answer your question.
+```
+
+### Are there more food options than just the school’s dining halls? — run 1
+
+- Best distance: 0.4192 (passed the gate)
+- Sources retrieved: dining_north_kitchen.txt, dining_north_kitchen_followup.txt, housing_fenwick_court.txt, housing_tamsin_court.txt
+
+```
+Yes, Tamsin Court provides the most independent housing on campus and is the only option with a full kitchen (housing_tamsin_court.txt). Additionally, Fenwick Court features a kitchenette which allows you to skip a meal plan tier (housing_fenwick_court.txt).
+```
+
+### Are there more food options than just the school’s dining halls? — run 2
+
+- Best distance: 0.4192 (passed the gate)
+- Sources retrieved: dining_north_kitchen.txt, dining_north_kitchen_followup.txt, housing_fenwick_court.txt, housing_tamsin_court.txt
+
+```
+Yes, Tamsin Court offers the most independent housing on campus and is the only option with a full kitchen (housing_tamsin_court.txt), and Fenwick Court has a kitchenette that allows you to skip a meal plan tier (housing_fenwick_court.txt).
+```
+
+### Are there more food options than just the school’s dining halls? — run 3
+
+- Best distance: 0.4192 (passed the gate)
+- Sources retrieved: dining_north_kitchen.txt, dining_north_kitchen_followup.txt, housing_fenwick_court.txt, housing_tamsin_court.txt
+
+```
+Based on the provided documents, Tamsin Court offers the only housing option on campus with a full kitchen, and Fenwick Court includes a kitchenette. 
+
+Sources: 
+- housing_tamsin_court.txt
+- housing_fenwick_court.txt
+```
+
+### What kind of transportation is offered by the university to get to their classes faster? — run 1
+
+- Best distance: 0.5478 (passed the gate)
+- Sources retrieved: admin_graduation_requirements.txt, course_biol_160.txt, housing_aldridge_hall.txt, transit_walking.txt
+
+```
+I don't have enough information to answer your question from the provided documents.
+```
+
+### What kind of transportation is offered by the university to get to their classes faster? — run 2
+
+- Best distance: 0.5478 (passed the gate)
+- Sources retrieved: admin_graduation_requirements.txt, course_biol_160.txt, housing_aldridge_hall.txt, transit_walking.txt
+
+```
+I don't have enough information to answer your question from the provided documents.
+```
+
+### What kind of transportation is offered by the university to get to their classes faster? — run 3
+
+- Best distance: 0.5478 (passed the gate)
+- Sources retrieved: admin_graduation_requirements.txt, course_biol_160.txt, housing_aldridge_hall.txt, transit_walking.txt
+
+```
+I don't have enough information to answer your question from the provided documents.
+```
