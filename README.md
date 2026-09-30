@@ -246,9 +246,17 @@ whose distance was 0.612.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** I tightened the grounding prompt in
+`generate.py::GROUNDING_INSTRUCTION`. For answers supported by a retrieved
+excerpt, the model must end with exactly one line in the format
+`Source: filename.txt`, using the exact filename from the excerpt label. If no
+excerpt answers the question, it must say that it does not have enough
+information and must not invent a source.
 
-**Why I picked it:**
+**Why I picked it:** The diagnosis for Criterion 2 identified generation as
+the cause: source filenames were available in the prompt, but source
+attribution was not enforced consistently in the model's output. This is one
+prompt change aimed directly at that diagnosis.
 
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
@@ -260,34 +268,45 @@ whose distance was 0.612.
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 2 of 5 | 2 of 5 | 2 of 5 | MISSED |
+| 2. Every answer names a source | 5 of 5 | 0 of 5 | 0 of 5 | 1 of 5 | MISSED |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 4. No chunk is under 50 characters or over 500 characters | 5 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 5. Every answer came back in under 1 minute | 5 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+
+The before and after raw run logs were produced by
+`run_eval.py::main` with three uncached runs per question. The complete raw
+outputs are preserved in
+`results/run_2026-09-30_0019_before-fixed.md` and
+`results/run_2026-09-30_0138_after.md`. Representative output shows the
+difference:
+
+**Before, food-options question, run 1:**
+
+```
+Yes, Tamsin Court provides the most independent housing on campus and is the only option with a full kitchen (housing_tamsin_court.txt). Additionally, Fenwick Court features a kitchenette which allows you to skip a meal plan tier (housing_fenwick_court.txt).
+```
+
+**After, food-options question, run 3:**
+
+```
+Based on the provided documents, Tamsin Court is the only housing option on campus with a full kitchen, and Fenwick Court includes a kitchenette.
+
+Source: housing_tamsin_court.txt
+```
 
 **Did it help?**
 
-<!-- Say plainly whether it did, and how you know. If it made things worse,
-     say that — a change that backfired, honestly reported, earns full credit
-     and is more interesting than one that worked. What matters is that you can
-     tell.
-
-     Milestone 4. -->
+No. It improved the format in one of the fifteen generated answers, but it did
+not meet the Criterion 2 target of 5 of 5. The after runs produced source
+attribution in 0, 0, and 1 of 5 answers. The stricter prompt also caused the
+model to refuse most retrieved excerpts instead of guessing, so the existing
+scorer marked all five questions as failures in every after run. Criterion 1
+remained at 2 of 5, Criterion 3 remained at 5 of 5, and Criterion 4 remained
+at 5 of 5.
 
 ## What's Still Broken
 
-<!-- For each criterion still missed after your fix: what you'd do about it,
-     and why you stopped where you did.
 
-     "I ran out of time" is fine if it's true. Pretending nothing is left is
-     not.
-
-     Milestone 5. -->
 
 ## What I'd Do Differently
-
-<!-- Knowing what you know now — which of your five criteria would you write
-     differently, and why?
-
-     Milestone 5. -->

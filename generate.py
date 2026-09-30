@@ -279,7 +279,9 @@ Rules:
 - Use only the information in the documents below. Do not use anything you know from elsewhere.
 - Every factual statement must be directly supported by a provided excerpt; do not infer, generalize, or fill gaps from background knowledge.
 - If no excerpt directly answers the question, say you don't have enough information. Do not guess or answer from an excerpt that only shares a few words with the question.
-- Name the document your answer came from, using the filename given in each excerpt.
+- For every answer supported by an excerpt, end with exactly one line in this format: Source: filename.txt
+- Replace filename.txt with the exact filename shown in the [from filename.txt] label of the excerpt that supports your answer. Do not invent or alter filenames.
+- If no excerpt directly answers the question, say you don't have enough information and do not include a source line.
 - Be brief. Two or three sentences is usually enough."""
 
 
